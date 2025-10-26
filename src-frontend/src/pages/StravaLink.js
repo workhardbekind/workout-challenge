@@ -25,7 +25,7 @@ export function InitStravaLink() {
         return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
     };
 
-    const urlSecondPart = 'client_id=156364&response_type=code&approval_prompt=force&scope=profile:read_all,activity:read_all&redirect_uri=' + encodedBaseUrl;
+    const urlSecondPart = 'client_id=178748&response_type=code&approval_prompt=force&scope=profile:read_all,activity:read_all&redirect_uri=' + encodedBaseUrl;
     let urlFirstPart = '';
 
     if (isIOS()) {
