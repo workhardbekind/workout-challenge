@@ -4,13 +4,14 @@ services:
   workoutchallenge:
     image: workhardbekind/workout_challenge
     container_name: workoutchallenge
+    build: .
     ports:
       - "80:80"
       - "5555:5555" # Celery Flower task monitoring - do not open to public - only for local network for debugging
       - "9001:9001" # Supervisord process monitoring - do not open to public - only for local network for debugging
       - "8000:8000" # Django admin space - do not open to public - only for local network for debugging
     volumes:
-      - /usr/pi/workout_challenge/django:/workout_challenge/src-backend/data
+      - 'S:/Node.js/workout-challenge/db:/workout_challenge/src-backend/data'
     env_file: .env
     restart: unless-stopped
     depends_on:
@@ -27,7 +28,7 @@ services:
     ports:
       - "5434:5432"
     volumes:
-      - /home/dave/workout/db:/var/lib/postgresql/data
+      - 'S:/Node.js/workout-challenge/db:/var/lib/postgresql/data'
     restart: unless-stopped
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
