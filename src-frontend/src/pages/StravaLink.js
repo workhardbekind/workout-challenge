@@ -25,7 +25,10 @@ export function InitStravaLink() {
         return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
     };
 
-    const urlSecondPart = 'client_id=178748&response_type=code&approval_prompt=force&scope=profile:read_all,activity:read_all&redirect_uri=' + encodedBaseUrl;
+    // Get Strava client ID from environment variable
+29
++   const stravaClientId = window._env_?.STRAVA_CLIENT_ID || '156364';
++   const urlSecondPart = `client_id=${stravaClientId}&response_type=code&approval_prompt=force&scope=profile:read_all,activity:read_all&redirect_uri=${encodedBaseUrl}`;
     let urlFirstPart = '';
 
     if (isIOS()) {
@@ -35,7 +38,8 @@ export function InitStravaLink() {
     }
 
     console.log('Strava linkage url:', baseUrl);
-
+    console.log('Strava client ID:', stravaClientId);
+    
     useEffect(() => {
         // redirect if user valid and logged in
         if (userIsSuccess) {

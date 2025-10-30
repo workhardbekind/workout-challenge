@@ -32,7 +32,8 @@ const AccordionItem = ({title, content, link}) => {
             </button>
             {isOpen && (
                 <div className="pb-4 text-gray-600 dark:text-gray-400">
-                    <div dangerouslySetInnerHTML={{ __html: content }} />
+                    {/* Render content directly; React will escape strings. If content is JSX it will render safely. */}
+                    {typeof content === 'string' ? <div>{content}</div> : content}
                 </div>
             )}
         </div>
@@ -47,8 +48,27 @@ function AccordionMenu() {
         {title: "Suggest a Feature", link: "https://github.com/vanalmsick/workout_challenge/discussions/categories/ideas"},
         {title: "Report a Bug", link: "https://github.com/vanalmsick/workout_challenge/issues"},
         {title: "Help developing", link: "https://github.com/vanalmsick/workout_challenge#do-you-want-to-help--contribute"},
-        {title: "What data is saved and how is it handled?", content: "No data is sold/shared to/with anyone. If you delete your account all data is unrecoverably deleted. There might be backups containing your user data for a few more weeks until the retention period is exceeded. " + ((SENTRY_DSN !== undefined && SENTRY_DSN !== null && SENTRY_DSN !== '') ? "<a class='text-blue-500 hover:underline' target='_blank' href='https://sentry.io/'>Sentry.io</a> error and performance monitoring is enabled. In line with EU GDPR, if errors occur these are reported anonymized (no 'Personal-Identifiable-Information') to the administrator on top of some basic statics like loading speed of approx. 25% of sessions to detect malfunctions. Please see Sentry.io's data privacy policy. " : "") + "No user statistics or other analytics are collected by the website itself. The data you see when using the app is the data saved (e.g. personal profile, workout data, competition signups, points)."},
-        {title: "Credits", content: "This is an Open Source project under the SSPL v1.0 license on <a class='text-blue-500 hover:underline' target='_blank' href='https://github.com/vanalmsick/workout_challenge'>github.com/vanalmsick/workout_challenge</a>. See <a class='text-blue-500 hover:underline' target='_blank' href='/credits.txt'>here for stock image credits</a>."},
+        {title: "What data is saved and how is it handled?", content: (
+            <>
+                {"No data is sold/shared to/with anyone. If you delete your account all data is unrecoverably deleted. There might be backups containing your user data for a few more weeks until the retention period is exceeded. "}
+                {SENTRY_DSN ? (
+                    <>
+                        <a className="text-blue-500 hover:underline" target="_blank" rel="noopener noreferrer" href="https://sentry.io/">Sentry.io</a>
+                        {" error and performance monitoring is enabled. In line with EU GDPR, if errors occur these are reported anonymized (no 'Personal-Identifiable-Information') to the administrator on top of some basic statics like loading speed of approx. 25% of sessions to detect malfunctions. Please see Sentry.io's data privacy policy. "}
+                    </>
+                ) : null}
+                {"No user statistics or other analytics are collected by the website itself. The data you see when using the app is the data saved (e.g. personal profile, workout data, competition signups, points)."}
+            </>
+        )},
+        {title: "Credits", content: (
+            <>
+                {"This is an Open Source project under the SSPL v1.0 license on "}
+                <a className="text-blue-500 hover:underline" target="_blank" rel="noopener noreferrer" href="https://github.com/vanalmsick/workout_challenge">github.com/vanalmsick/workout_challenge</a>
+                {". See "}
+                <a className="text-blue-500 hover:underline" target="_blank" rel="noopener noreferrer" href="/credits.txt">here for stock image credits</a>
+                {"."}
+            </>
+        )},
     ];
 
     return (

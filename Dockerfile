@@ -42,6 +42,12 @@ COPY supervisord.conf /etc/supervisord.conf
 # NGINX runtime folder
 RUN mkdir -p /run/nginx
 
+# Create an unprivileged system user and adjust ownership of runtime/app folders
+RUN adduser -S -h /workout_challenge appuser \
+	&& chown -R appuser:appuser /workout_challenge \
+	&& chown -R appuser:appuser /run/nginx \
+	&& chown -R appuser:appuser /usr/share/nginx/html
+
 # Django data folder with mirgations and sqlite database
 VOLUME /workout_challenge/src-backend/data
 
@@ -51,5 +57,8 @@ EXPOSE 80
 EXPOSE 9001
 # celery flower - monitoring of celery tasks
 EXPOSE 5555
+
+# Run as non-root user
+USER appuser
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
