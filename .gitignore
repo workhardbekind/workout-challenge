@@ -2,7 +2,7 @@
 .rdb
 src-backend/static
 src-backend/data
-db 
+db/*
 ### venv template
 # Virtualenv
 # http://iamzed.com/2009/05/07/a-primer-on-virtualenv/
